@@ -127,12 +127,12 @@ function getData(data) {
 
         // update book 
         updateButton.addEventListener('click', (e) => {
-            e.stopPropagation();
+            
 
             let modal = document.getElementById('updateModal');
             let modalBtn = document.getElementById('modalBtn');
             let span = document.getElementsByClassName('close')[0];
-            let updateBook = document.getElementById('updateBook');
+            let updateBookButton = document.getElementById('updateBookButton');
 
             // display modal
             modal.style.display = 'block';
@@ -147,15 +147,17 @@ function getData(data) {
             // get reference to database key
             let keyRef = database.ref('books').child(bookKey);
             
+            // console.log(books[k].title);
             // update book record from modal form
-            updateBook.addEventListener('click', () => {
+            updateBookButton.onclick =  () => {
                 keyRef.update({
                     title: document.getElementById('updateTitle').value,
                     author: document.getElementById('updateAuthor').value,
                     pages: document.getElementById('updatePages').value,
                     read: document.getElementById('updateRead').value
                 });
-            });
+            };
+
         });
     }
 }
@@ -167,7 +169,7 @@ function errorData(error) {
 
 
 /* TODO: 
-    modify read to three options: read, unread, reading
+
     optional: add isbn, completed pages
     do not allow to write letters on pages form
     add image from url
