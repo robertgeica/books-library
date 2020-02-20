@@ -71,30 +71,57 @@ function getData(data) {
     let books = data.val();
     // get keys of elements from database
     let keys = Object.keys(books);
-
-
+    console.log(keys)
     // iterate through the database keys
-    let title, author, pages, read;
+    let title, author, pages, read, id;
     for(let i=0; i<keys.length; i++) {
         let k = keys[i];
         title = books[k].title;
         author = books[k].author;
         pages = books[k].pages;
         read = books[k].read;
+        id = books[k].id;
 
         // display on page
-        let li = document.createElement('li');
-        // append ol and append li elements to it
+        const ul = document.createElement('ul');
+        const li = document.createElement('li');
+        const cross = document.createElement('div');
 
-        const ol = document.createElement('ul').appendChild(li);
-        ol.style = 'list-style-type: none';
 
         // add listingBook class to all elements from list
         li.classList.add('listingBook');
+        // add key as data atribute to every list element
+        li.setAttribute('data-id', k);
+        // set content of cross to 'X'
+        cross.textContent = 'X';
 
-        li.innerHTML = `${title} by ${author}, ${pages}, ${read}`;
-        document.body.appendChild(ol); // show ol to the page
+        // append li elements to ul and set style to none
+        ul.appendChild(li);
+        ul.style = 'list-style-type: none';
+
+        // show title, author, pages, read and id on page
+        li.innerHTML = `${title} by ${author}, ${pages}, ${read} with id ${id}`;
+        // append ol to body
+        document.body.appendChild(ul);
+        // append cross to li
+        li.appendChild(cross);
+
+        // delete book from database on cross click
+        cross.addEventListener('click', (e) => {
+            e.stopPropagation();
+            // get key on cross click
+            let bookKey = e.target.parentElement.getAttribute('data-id'); 
+            // get reference to database key
+            let keyRef = database.ref('books').child(bookKey);
+
+            keyRef.remove().then(function() {
+                console.log('deleted successfully');
+            }).catch(function(error) {
+                console.log('error happen on delete');
+            });
+        });
     }
+
 }
 
 
@@ -103,14 +130,12 @@ function errorData(error) {
 }
 
 
-
 /* TODO: 
     modify read to three options: read, unread, reading
     optional: add isbn, completed pages
     do not allow to write letters on pages form
     add image from url
     add popup when invalid input
-    implement delete
     implement update
     implement search
     implement ratings

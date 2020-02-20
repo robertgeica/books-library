@@ -4,7 +4,7 @@
 - [ ] do not allow to write letters on 'pages' input
 - [ ] add image from url
 - [ ] add popup at invalid input
-- [ ] implement delete book
+- [ x ] implement delete book
 - [ ] implement update
 - [ ] implement search
 - [ ] implement ratings
