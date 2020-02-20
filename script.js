@@ -71,7 +71,7 @@ function getData(data) {
     let books = data.val();
     // get keys of elements from database
     let keys = Object.keys(books);
-    console.log(keys)
+    
     // iterate through the database keys
     let title, author, pages, read, id;
     for(let i=0; i<keys.length; i++) {
@@ -86,7 +86,7 @@ function getData(data) {
         const ul = document.createElement('ul');
         const li = document.createElement('li');
         const cross = document.createElement('div');
-
+        const updateButton = document.createElement('button');
 
         // add listingBook class to all elements from list
         li.classList.add('listingBook');
@@ -94,6 +94,8 @@ function getData(data) {
         li.setAttribute('data-id', k);
         // set content of cross to 'X'
         cross.textContent = 'X';
+        // set content of update button to 'update'
+        updateButton.textContent = 'update';
 
         // append li elements to ul and set style to none
         ul.appendChild(li);
@@ -103,8 +105,9 @@ function getData(data) {
         li.innerHTML = `${title} by ${author}, ${pages}, ${read} with id ${id}`;
         // append ol to body
         document.body.appendChild(ul);
-        // append cross to li
+        // append cross and update to li
         li.appendChild(cross);
+        li.appendChild(updateButton);
 
         // delete book from database on cross click
         cross.addEventListener('click', (e) => {
@@ -120,8 +123,41 @@ function getData(data) {
                 console.log('error happen on delete');
             });
         });
-    }
 
+
+        // update book 
+        updateButton.addEventListener('click', (e) => {
+            e.stopPropagation();
+
+            let modal = document.getElementById('updateModal');
+            let modalBtn = document.getElementById('modalBtn');
+            let span = document.getElementsByClassName('close')[0];
+            let updateBook = document.getElementById('updateBook');
+
+            // display modal
+            modal.style.display = 'block';
+
+            // close modal when user clicks on span
+            span.onclick = function() {
+                modal.style.display = 'none';
+            }
+
+            // get key on cross click
+            let bookKey = e.target.parentElement.getAttribute('data-id'); 
+            // get reference to database key
+            let keyRef = database.ref('books').child(bookKey);
+            
+            // update book record from modal form
+            updateBook.addEventListener('click', () => {
+                keyRef.update({
+                    title: document.getElementById('updateTitle').value,
+                    author: document.getElementById('updateAuthor').value,
+                    pages: document.getElementById('updatePages').value,
+                    read: document.getElementById('updateRead').value
+                });
+            });
+        });
+    }
 }
 
 
