@@ -6,132 +6,125 @@
         <title></title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="">
+        <link rel="stylesheet" href="styles.css">
     
         <!-- The core Firebase JS SDK is always required and must be listed first -->
         <script src="https://www.gstatic.com/firebasejs/3.1.0/firebase.js"></script>
-        <style>
 
-            .listingBook {
-                color: blue;
-            }
+        <!-- SweetAlert 2 -->
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 
-            .modal {
-                display: none; /* Hidden by default */
-                position: fixed; /* Stay in place */
-                z-index: 1; /* Sit on top */
-                left: 0;
-                top: 0;
-                width: 100%; /* Full width */
-                height: 100%; /* Full height */
-                overflow: auto; /* Enable scroll if needed */
-            }
+        <script src="https://kit.fontawesome.com/16efb90edc.js" crossorigin="anonymous"></script>
 
-            /* Modal Content */
-            .modal-content {
-                position: fixed;
-                bottom: 0;
-                background-color: #fefefe;
-                width: 100%;
-                -webkit-animation-name: slideIn;
-                -webkit-animation-duration: 0.4s;
-                animation-name: slideIn;
-                animation-duration: 0.4s
-            }
-
-            /* The Close Button */
-            .close {
-                color: white;
-                float: right;
-                font-size: 28px;
-            }
-
-            .close:hover,
-            .close:focus {
-                color: #000;
-                text-decoration: none;
-                cursor: pointer;
-            }
-
-            .modal-header {
-                padding: 2px 16px;
-                background-color: #0e75b9;
-                color: white;
-            }
-
-            .modal-body {
-                padding: 2px 16px;
-            }
-
-        </style>
     </head>
     <body>
 
-        <form> 
-            <div class="formBox">
-                <label for="bookTitle">Title</label>
-                <input type="text" id="bookTitle" placeholder="Book Title"/>
+        <!--Add Book Modal-->
+        <button id="addBookButton-modal">Add book</button>
+
+        <div id="addBook-modal" class="modal">
+            <div class="modal-content">
+                
+                <div class="modal-header">
+                    <span class="closeModal">&times;</span>
+                    <h4>Add Book</h2>
+                </div>
+
+                <div class="container">
+                    <form> 
+                        <div class="form-element">
+                            <input type="text" id="bookTitle" placeholder="Book Title"/>
+                        </div>
+                
+                        <div class="form-element">
+                            <input type="text" id="bookAuthor" placeholder="Book Author"/>
+                        </div>
+                
+                        <div class="form-element">
+                            <input type="text" id="bookPages" placeholder="Book Pages"/>
+                        </div>
+                
+                        <div class="form-element">
+                            <input type="text" id="bookCompletedPages" placeholder="Completed Pages"/>
+                        </div>
+                
+                        <div class="form-element">
+                            <select type="text" id="bookStatus">
+                                <option value="unread">Unread</option>
+                                <option value="read">Read</option>
+                                <option value="reading">Reading</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-element">
+                            <button id="submitBookBtn">Click to add</button>
+                        </div>
+                    </form>
+                </div>
             </div>
-    
-            <div class="formBox">
-                <label for="bookTitle">Author</label>
-                <input type="text" id="bookAuthor" placeholder="Book Author"/>
-            </div>
-    
-            <div class="formBox">
-                <label for="bookTitle">Pages</label>
-                <input type="text" id="bookPages" placeholder="Book Pages"/>
-            </div>
-    
-            <div class="formBox">
-                <label for="bookTitle">Read</label>
-                <input type="text" id="bookRead" placeholder="Book Read"/>
-            </div>
-    
-            <div class="formBox">
-                <button id="btn">Click to add</button>
-            </div>
-        </form>
+        </div>
         
 
         <!-- Update form modal -->
-        <div id="updateModal" class="modal">
+        <div id="update-modal" class="modal">
 
             <!-- Modal content -->
             <div class="modal-content">
                 <div class="modal-header">
-                    <span class="close">&times;</span>
+                    <span class="closeModal">&times;</span>
                     <h2>Update book record</h2>
                 </div>
 
 
-                <div class="modal-body">
-                    <div class="formBox">
-                        <label for="bookTitle">Title</label>
-                        <input type="text" id="updateTitle" placeholder="Book Title"/>
-                    </div>
+                <div class="container">
+                    <form>
+                        <div class="form-element">
+                            <input type="text" id="updateTitle" placeholder="Book Title"/>
+                        </div>
 
-                    <div class="formBox">
-                        <label for="bookTitle">Author</label>
-                        <input type="text" id="updateAuthor" placeholder="Book Author"/>
-                    </div>
+                        <div class="form-element">
+                            <input type="text" id="updateAuthor" placeholder="Book Author"/>
+                        </div>
 
-                    <div class="formBox">
-                        <label for="bookTitle">Pages</label>
-                        <input type="text" id="updatePages" placeholder="Book Pages"/>
-                    </div>
+                        <div class="form-element">
+                            <input type="text" id="updatePages" placeholder="Book Pages"/>
+                        </div>
+                
+                        <div class="form-element">
+                            <input type="text" id="updateCompletedPages" placeholder="Completed Pages"/>
+                        </div>
 
-                    <div class="formBox">
-                        <label for="bookTitle">Read</label>
-                        <input type="text" id="updateRead" placeholder="Book Read"/>
-                    </div>
+                        <div class="form-element">
+                            <select type="text" id="updateStatus">
+                                <option value="read">Read</option>
+                                <option value="unread">Unread</option>
+                                <option value="reading">Reading</option>
+                            </select>
+                        </div>
 
-                    <div class="formBox">
-                        <button id="updateBook">update record</button>
-                    </div>
+                        <div class="form-element">
+                            <button id="updateBookButton">Update Book</button>
+                        </div>
+                    </form>
                 </div>
             </div>
   
+        </div>
+
+        <div class="container">
+            <table id="booksTable">
+                <tr>
+                    <th>Update</th>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>Pages</th>
+                    <th>Completed Pages</th>
+                    <th>Status</th>
+                    <th>ID</th>
+                    <th>Delete</th>
+                </tr>
+                
+            </table>
         </div>
               
         <script src="script.js" async defer></script>
