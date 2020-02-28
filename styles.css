@@ -99,3 +99,27 @@ td, th {
     text-align: center;
     padding: 8px;
 }
+
+tr:nth-child(even) {
+    background-color: #f2f2f2
+  }
+
+
+
+.footer {
+    display: flex;
+    background-color: #888;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    justify-content: center;
+
+}
+.stats {
+    display: flex;
+}
+
+.stats p {
+    padding: 0 1em;
+}

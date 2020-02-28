@@ -110,6 +110,7 @@ function getData(data) {
     
     // iterate through the database keys
     let title, author, pages, completedPages, status, id;
+    let sumPages = 0, sumCompletedPages = 0, completedBooks = 0;
 
     for(let i=0; i<keys.length; i++) {
         let k = keys[i];
@@ -119,6 +120,34 @@ function getData(data) {
         completedPages = books[k].completedPages;
         status = books[k].status;
         id = books[k].id;
+
+        // get infos about books
+        function infoBooks() {
+            // total books
+            document.getElementById('total-books').innerHTML = `Total books: ${parseInt(i)+1}`;
+
+            // total pages
+            if(pages) {
+                sumPages = sumPages + parseInt(pages);
+                document.getElementById('total-pages').innerHTML = `Total pages: ${sumPages}`;
+            }
+
+            // completed pages
+            if(completedPages) {
+                sumCompletedPages = sumCompletedPages + parseInt(completedPages);
+                document.getElementById('completed-pages').innerHTML = `Completed pages: ${sumCompletedPages}`;
+            }
+          
+            // completed books
+            if(books[k].status == 'read') {
+                completedBooks++;
+                document.getElementById('completed-books').innerHTML = `Completed books: ${completedBooks}`;
+            }
+
+        }
+
+        infoBooks();
+
 
         // display on page
         const deleteButton = document.createElement('div');
@@ -268,6 +297,107 @@ function getData(data) {
 
         });
     }
+
+
+}
+
+function search() {
+    let input, filter, table, tr, tdTitle, tdAuthor, text, text2;
+    input = document.getElementById('search');
+    filter = input.value.toUpperCase();
+    table = document.getElementById('booksTable');
+    tr = table.getElementsByTagName('tr');
+
+    for(let i=0; i<tr.length; i++) {
+        tdTitle = tr[i].getElementsByTagName('td')[1];
+        tdAuthor = tr[i].getElementsByTagName('td')[2];
+
+        console.log(tdTitle, tdAuthor);
+        
+        if(tdTitle || tdAuthor) {
+            text = tdTitle.textcontent || tdTitle.innerText;
+            text2 = tdAuthor.textcontent || tdAuthor.innerText;
+            
+            if(text.toUpperCase().indexOf(filter) > -1 || text2.toUpperCase().indexOf(filter) > -1) {
+                tr[i].style.display = '';
+            } else {
+                tr[i].style.display = 'none';
+            }
+   
+        }
+    }
+}
+
+
+function sortTable(n) {
+    let table = document.getElementById('booksTable');
+    let tr = document.getElementsByTagName('tr');
+
+    let shouldSwitchRows = false;
+    let switchRows = true;
+    let sortType = 'asc'; // set ascending sorting
+    let count = 0;
+    
+    while(switchRows) {
+        switchRows = false;
+
+        for(let i=1; i<(tr.length-1); i++) {
+            let row1 = tr[i].getElementsByTagName('td')[n];
+            let row2 = tr[i+1].getElementsByTagName('td')[n];
+            
+            // console.log('row1: ' + row1.innerHTML);
+            // console.log('row2: ' + row2.innerHTML);
+
+            if(sortType == 'asc') {
+                // console.log('sortType == asc');
+
+                if(row1.innerHTML.toLowerCase() > row2.innerHTML.toLowerCase()) {
+                    sswitch();
+                    console.log('switched asc');
+                    break;
+                }
+
+            }
+            
+            if(sortType == 'desc') {
+                // console.log('sortType == desc');
+
+                if(row1.innerHTML.toLowerCase() < row2.innerHTML.toLowerCase()) {
+                    sswitch();
+                    console.log('switched desc');
+                    break;
+                } 
+            }
+
+            function sswitch() {
+                shouldSwitchRows = true;
+                
+                if(shouldSwitchRows) {
+                    // console.log('switched elements');
+                    if(sortType == 'asc') {
+                        tr[i].parentNode.insertBefore(tr[i+1], tr[i]);
+                        switchRows = true;
+                        console.log('switched asc2');
+                        // sortType = 'desc'; // if this is removes, sort is asc
+                        
+                    }
+                    
+                    if(sortType == 'desc') {
+                        // tr[i].parentNode.insertBefore(tr[i+1], tr[i]);
+                        switchRows = true;
+                        console.log('switched desc2');
+                    }
+
+                } 
+                
+            }
+
+        }
+    }
+  
+
+
+
 }
 
 
@@ -279,16 +409,3 @@ function errorData(error) {
     });
 }
 
-
-/* TODO: 
-    1. update name on update modal
-    2. establish the design of books listing
-    3. do not allow to write letters on pages form
-    4. add popup when invalid input
-    5. add isbn
-    6. completed pages
-    7. add image from url
-    8. add informations page (total books, completed books, total pages, total completed pages)
-    9. implement search
-    10. implement sorting
-*/

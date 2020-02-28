@@ -5,7 +5,7 @@
 - [x] add popup at invalid input
 - [x] implement delete book
 - [x] implement update
-- [ ] implement search
+- [x] implement search
 - [ ] implement sorting
-- [ ] add infos page (total books, completed books, total pages, total completed pages)
+- [x] add infos page (total books, completed books, total pages, total completed pages)
 - [ ] add authentification

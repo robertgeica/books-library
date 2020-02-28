@@ -19,6 +19,7 @@
     </head>
     <body>
 
+
         <!--Add Book Modal-->
         <button id="addBookButton-modal">Add book</button>
 
@@ -111,12 +112,15 @@
   
         </div>
 
+
+        <input type="text" id="search" onkeyup="search()" placeholder="Search book by title">
+
         <div class="container">
             <table id="booksTable">
                 <tr>
                     <th>Update</th>
-                    <th>Title</th>
-                    <th>Author</th>
+                    <th onclick="sortTable(1)">Title</th>
+                    <th onclick="sortTable(2)">Author</th>
                     <th>Pages</th>
                     <th>Completed Pages</th>
                     <th>Status</th>
@@ -125,8 +129,18 @@
                 </tr>
                 
             </table>
+
         </div>
-              
+            
+        <div class="footer">
+            <div class="stats">
+                <p id="total-books"></p>
+                <p id="completed-books"></p>
+                <p id="total-pages"></p>
+                <p id="completed-pages"></p>
+    
+            </div>
+        </div>
         <script src="script.js" async defer></script>
     </body>
 </html>
