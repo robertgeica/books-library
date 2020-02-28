@@ -329,8 +329,49 @@ function search() {
 }
 
 
+function sortTable(n) {
+    let table = document.getElementById('books-table');
+    let rows = document.getElementsByTagName('tr');
 
+    let switchRows = true;
+    let shouldSwitchRows;
+    let sortType = 'asc';
+    let switchCount = 0;
+    let row1, row2, i;
 
+    while(switchRows) {
+        switchRows = false;
+
+        for(i=1; i<(rows.length -1); i++) {
+            shouldSwitchRows = false;
+
+            row1 = rows[i].getElementsByTagName('td')[n].innerHTML.toLowerCase();
+            row2 = rows[i+1].getElementsByTagName('td')[n].innerHTML.toLowerCase();
+
+            if(sortType == 'asc') {
+                if(row1 > row2) {
+                    shouldSwitchRows = true;
+                    break;
+                }
+            } else if(sortType == 'desc') {
+                if(row1 < row2) {
+                    shouldSwitchRows = true;
+                    break;
+                }
+            }
+        }
+
+        if(shouldSwitchRows) {
+            rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+            switchRows = true;
+            switchCount++;
+        } else {
+            if(switchCount == 0 && sortType == 'asc') {
+                sortType = 'desc';
+                switchRows = true;
+            }
+        }
+    }
 
 
 }

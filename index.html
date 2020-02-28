@@ -113,14 +113,14 @@
         </div>
 
 
-        <input type="text" id="search" onkeyup="search()" placeholder="Search book by title">
+        <input type="text" id="search" onkeyup="search()" placeholder="Search book by title/author">
 
         <div class="container">
             <table id="booksTable">
                 <tr>
                     <th>Update</th>
-                    <th>Title</th>
-                    <th >Author</th>
+                    <th onclick="sortTable(1)">Title</th>
+                    <th onclick="sortTable(2)">Author</th>
                     <th>Pages</th>
                     <th>Completed Pages</th>
                     <th>Status</th>
