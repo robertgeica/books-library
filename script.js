@@ -329,72 +329,7 @@ function search() {
 }
 
 
-function sortTable(n) {
-    let table = document.getElementById('booksTable');
-    let tr = document.getElementsByTagName('tr');
 
-    let shouldSwitchRows = false;
-    let switchRows = true;
-    let sortType = 'asc'; // set ascending sorting
-    let count = 0;
-    
-    while(switchRows) {
-        switchRows = false;
-
-        for(let i=1; i<(tr.length-1); i++) {
-            let row1 = tr[i].getElementsByTagName('td')[n];
-            let row2 = tr[i+1].getElementsByTagName('td')[n];
-            
-            // console.log('row1: ' + row1.innerHTML);
-            // console.log('row2: ' + row2.innerHTML);
-
-            if(sortType == 'asc') {
-                // console.log('sortType == asc');
-
-                if(row1.innerHTML.toLowerCase() > row2.innerHTML.toLowerCase()) {
-                    sswitch();
-                    console.log('switched asc');
-                    break;
-                }
-
-            }
-            
-            if(sortType == 'desc') {
-                // console.log('sortType == desc');
-
-                if(row1.innerHTML.toLowerCase() < row2.innerHTML.toLowerCase()) {
-                    sswitch();
-                    console.log('switched desc');
-                    break;
-                } 
-            }
-
-            function sswitch() {
-                shouldSwitchRows = true;
-                
-                if(shouldSwitchRows) {
-                    // console.log('switched elements');
-                    if(sortType == 'asc') {
-                        tr[i].parentNode.insertBefore(tr[i+1], tr[i]);
-                        switchRows = true;
-                        console.log('switched asc2');
-                        // sortType = 'desc'; // if this is removes, sort is asc
-                        
-                    }
-                    
-                    if(sortType == 'desc') {
-                        // tr[i].parentNode.insertBefore(tr[i+1], tr[i]);
-                        switchRows = true;
-                        console.log('switched desc2');
-                    }
-
-                } 
-                
-            }
-
-        }
-    }
-  
 
 
 
