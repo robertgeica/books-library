@@ -6,6 +6,6 @@
 - [x] implement delete book
 - [x] implement update
 - [x] implement search
-- [ ] implement sorting
+- [x] implement sorting
 - [x] add infos page (total books, completed books, total pages, total completed pages)
-- [ ] add authentification
+- [x] add authentification

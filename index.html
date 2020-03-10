@@ -19,16 +19,43 @@
     </head>
     <body>
 
+        <!-- log out -->
+        <!-- log in form -->
+        <div class="container navbar">
+            <input id="txtEmail" type="email" placeholder="email">
 
+            <input id='txtPassword' type="password" placeholder="password">
+
+            
+            <button id='btnLogin' class="btn">
+                log in
+            </button>
+
+            <button id='btnLogout' class="btn">
+                log out
+            </button>
+            
+            <button id='btnSignup' class="btn">
+                sign up
+            </button>
+        </div>
+
+        <p id="status"></p>
+
+
+
+
+
+<div class="container">
         <!--Add Book Modal-->
-        <button id="addBookButton-modal">Add book</button>
+        <button id="addBookButton-modal" class="btn">Add book</button>
 
         <div id="addBook-modal" class="modal">
             <div class="modal-content">
                 
                 <div class="modal-header">
                     <span class="closeModal">&times;</span>
-                    <h4>Add Book</h2>
+                    <h4>Add Book</h4>
                 </div>
 
                 <div class="container">
@@ -58,7 +85,7 @@
                         </div>
                         
                         <div class="form-element">
-                            <button id="submitBookBtn">Click to add</button>
+                            <button id="submitBookBtn" class="btn">Click to add</button>
                         </div>
                     </form>
                 </div>
@@ -73,7 +100,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <span class="closeModal">&times;</span>
-                    <h2>Update book record</h2>
+                    <h4>Update book record</h4>
                 </div>
 
 
@@ -104,7 +131,7 @@
                         </div>
 
                         <div class="form-element">
-                            <button id="updateBookButton">Update Book</button>
+                            <button id="updateBookButton" class="btn">Update Book</button>
                         </div>
                     </form>
                 </div>
@@ -114,7 +141,7 @@
 
 
         <input type="text" id="search" onkeyup="search()" placeholder="Search book by title/author">
-
+    </div>
         <div class="container">
             <table id="booksTable">
                 <tr>
@@ -132,6 +159,12 @@
 
         </div>
             
+
+    
+
+
+
+          
         <div class="footer">
             <div class="stats">
                 <p id="total-books"></p>
@@ -141,6 +174,11 @@
     
             </div>
         </div>
+
+
+
+
+
         <script src="script.js" async defer></script>
     </body>
 </html>

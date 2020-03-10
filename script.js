@@ -19,6 +19,7 @@ let databaseRef = database.ref('books');
 // event value will have two callbacks
 databaseRef.on('value', getData, errorData);
 
+
 // book constructor
 function Book(title, author, pages, completedPages, status) {
     this.id = Date.now();
@@ -148,20 +149,38 @@ function getData(data) {
 
         infoBooks();
 
+        
 
         // display on page
-        const deleteButton = document.createElement('div');
+        let deleteButton = document.createElement('div');
         let updateButton = document.createElement('div');
 
-        // add deleteIcon class and icon to deletebutton
-        deleteButton.classList.add('deleteIcon');
-        deleteButton.classList.add('fas');
-        deleteButton.classList.add('fa-trash-alt');
+        // if user is connected, add update/btn delete
+        firebase.auth().onAuthStateChanged((user) => {
 
-        // add updateBtn class and icon to updateButton
-        updateButton.classList.add('updateBtn');
-        updateButton.classList.add('fas');
-        updateButton.classList.add('fa-edit');
+            if(user) {
+                // add deleteIcon class and icon to deletebutton
+                deleteButton.classList.add('deleteIcon');
+                deleteButton.classList.add('fas');
+                deleteButton.classList.add('fa-trash-alt');
+
+                // add updateBtn class and icon to updateButton
+                updateButton.classList.add('updateBtn');
+                updateButton.classList.add('fas');
+                updateButton.classList.add('fa-edit');
+            } else {
+                deleteButton.classList.remove('deleteIcon');
+                deleteButton.classList.remove('fas');
+                deleteButton.classList.remove('fa-trash-alt');
+                updateButton.classList.remove('updateBtn');
+                updateButton.classList.remove('fas');
+                updateButton.classList.remove('fa-edit');
+
+            }
+            
+        })
+
+        
 
         
         // display data to a table
@@ -384,4 +403,102 @@ function errorData(error) {
         text: `Error: ${error}`
     });
 }
+
+
+
+// LOGIN
+const auth = firebase.auth();
+
+// dom elements
+const txtEmail = document.getElementById('txtEmail');
+const txtPassword = document.getElementById('txtPassword');
+const btnLogin = document.getElementById('btnLogin');
+const btnLogout = document.getElementById('btnLogout');
+const btnSignup = document.getElementById('btnSignup');
+const status = document.getElementById('status');
+
+// SIGN-UP with Email/Pass
+const signup = (e) => {
+    // TODO: check for real emails
+    const email = txtEmail.value;
+    const pass = txtPassword.value;
+
+    const promise = auth.createUserWithEmailAndPassword(email, pass);
+
+    promise.then(() => {
+        console.log('acount has been created');
+        sendVerificationEmail();
+    });
+
+    promise.catch(e => console.log(e.code, e.message));
+}
+// signup event
+btnSignup.addEventListener('click', signup);
+
+
+
+// Verirfication email
+const sendVerificationEmail = () => {
+    const promise = auth.currentUser.sendEmailVerification();
+    promise.then(() => console.log('verif email sent'));
+    promise.catch(e => console.log(e.code, e.message));
+}
+
+// LOGIN
+const login = (e) => {
+    // get email and pass
+    const email = txtEmail.value;
+    const pass = txtPassword.value;
+
+    const promise = auth.signInWithEmailAndPassword(email, pass);
+    promise.catch(e => console.log(e.code, e.message));
+
+    console.log('login attempt');
+}
+btnLogin.addEventListener('click', login);
+
+
+
+
+
+// LOGOUT
+const logout = (e) => {
+    auth.signOut();
+    console.log(auth.currentUser.email + ' has signed out');
+}
+// sign out event
+btnLogout.addEventListener('click', logout);
+
+
+firebase.auth().onAuthStateChanged((user) => {
+
+    // user is logged in
+    if(user) {
+        status.innerHTML = `You are logged in with ${user.email}.`
+
+
+        btnLogin.style.display = 'none';
+        btnSignup.style.display = 'none';
+        txtEmail.style.display = 'none';
+        txtPassword.style.display = 'none';
+
+        btnLogout.style.display = 'block';
+        addBookButtonModal.style.display = 'inline';
+    
+
+        
+    } else { // user is logged out
+        status.innerHTML = `<strong>Log in to add, update or delete book.</strong>`;
+
+        btnLogin.style.display = 'block';
+        btnSignup.style.display = 'block';
+        txtEmail.style.display = 'block';
+        txtPassword.style.display = 'block';
+
+        btnLogout.style.display = 'none';
+        addBookButtonModal.style.display = 'none';
+
+        
+    }
+})
 
